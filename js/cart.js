@@ -17,8 +17,18 @@ export default class Cart {
     cart = this.getCartFromSession();
     let cartJsonStr;
     if (cart.length > 0) {
-      cart.push(cartData);
-      cartJsonStr = JSON.stringify(cart);
+      let itemIndex = -1;
+      itemIndex = cart.findIndex((item) => item.id === cartItem[0].id);
+      if (itemIndex > -1) {
+        let qty = cart[itemIndex].quantity + 1;
+        cart[itemIndex].quantity = qty;
+        cart[itemIndex].total = qty * cart[itemIndex].price;
+        cartJsonStr = JSON.stringify(cart);
+        console.log("cart: ", cart);
+      } else {
+        cart.push(cartData);
+        cartJsonStr = JSON.stringify(cart);
+      }
     } else {
       cart.push(cartData);
       cartJsonStr = JSON.stringify(cart);
